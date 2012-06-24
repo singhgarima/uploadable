@@ -6,7 +6,4 @@ gemspec
 gem 'rake'
 gem 'rspec'
 gem 'sqlite3'
-
-group :test do
-  gem "database_cleaner"
-end
+gem 'rails'
