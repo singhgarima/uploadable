@@ -16,8 +16,9 @@ module Uploadable
       @upload_processor = Uploadable::Processor.new :mandatory_fields => options[:mandatory_fields], :optional_fields => options[:optional_fields]
     end
 
-    def upload_from_file
-
+    define_method :upload_from_csv do
+      raise NoMethodError.new("Method only aviable for uploadable models") if @upload_processor.blank?
     end
+
   end
 end

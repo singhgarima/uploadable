@@ -12,11 +12,17 @@ describe "Uploadable" do
       Album.instance_variable_get(:@upload_processor).should_not be_nil
       User.instance_variable_get(:@upload_processor).should be_nil
     end
+
+    it "should defind upload_from_csv method for models" do
+      Album.should respond_to(:upload_from_csv)
+      Track.should respond_to(:upload_from_csv)
+    end
   end
 
-  describe "upload_from_file" do
-    it "should upload to a model from the provided file" do
+  describe "upload_from_csv" do
 
+    it "should raise NoMethodError for non uploadable models" do
+      lambda { User.upload_from_csv }.should raise_error(NoMethodError)
     end
   end
 end
