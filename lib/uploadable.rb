@@ -12,8 +12,6 @@ module Uploadable
 
   module ClassMethods
     def uploadable options = {}
-      p "hello"
-
     end
   end
 end

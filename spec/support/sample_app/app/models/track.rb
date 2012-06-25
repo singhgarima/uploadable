@@ -1,5 +1,5 @@
 class Track < ActiveRecord::Base
-  uploadable
+  include Uploadable
   attr_accessible :album_id, :name
 
   belongs_to :album
