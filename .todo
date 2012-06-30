@@ -1,0 +1,4 @@
+#TODO
+
+1. Create exception class
+2. Improve performance by trying to modify all columns in a go rather than row by row
