@@ -11,6 +11,8 @@ describe "Uploadable" do
     it "should initialize a procesor if model is uploadable" do
       Album.instance_variable_get(:@upload_processor).should_not be_nil
       User.instance_variable_get(:@upload_processor).should be_nil
+
+      Album.instance_variable_get(:@upload_processor).model.should == Album
     end
 
     it "should defind upload_from_csv method for models" do
@@ -20,9 +22,8 @@ describe "Uploadable" do
   end
 
   describe "upload_from_csv" do
-
     it "should raise NoMethodError for non uploadable models" do
-      lambda { User.upload_from_csv }.should raise_error(NoMethodError)
+      lambda { User.upload_from_csv("") }.should raise_error(NoMethodError)
     end
   end
 end
