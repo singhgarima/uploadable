@@ -17,7 +17,7 @@ module Uploadable
     end
 
     define_method :upload_from_csv do |contents|
-      raise NoMethodError.new("Method only aviable for uploadable models") if @upload_processor.blank?
+      raise NoMethodError.new("Method only available for uploadable models") if @upload_processor.blank?
       records = @upload_processor.transform_csv contents
       create records
     end
