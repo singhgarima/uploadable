@@ -25,5 +25,12 @@ describe "Uploadable" do
     it "should raise NoMethodError for non uploadable models" do
       lambda { User.upload_from_csv("") }.should raise_error(NoMethodError)
     end
+
+    it "should upload to an uploadable model" do
+      lambda { Album.upload_from_csv("Artist,Title,Extra\n\"John Denver\",\"All Aboard!\",1\n\"Usher\",\"Looking 4 Myself\",2")}.
+        should change(Album, :count).by(2)
+      Album.where(:artist => "John Denver", :title => "All Aboard!").count.should == 1
+      Album.where(:artist => "Usher", :title => "Looking 4 Myself").count.should == 1
+    end
   end
 end
