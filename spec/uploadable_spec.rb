@@ -32,5 +32,11 @@ describe "Uploadable" do
       Album.where(:artist => "John Denver", :title => "All Aboard!").count.should == 1
       Album.where(:artist => "Usher", :title => "Looking 4 Myself").count.should == 1
     end
+
+    it "should partially upload records id error exists" do
+      records = Album.upload_from_csv("Artist,Title,Extra\n\"John Denver\",\"All Aboard!\",1\n\"Usher\",,2")
+      records.first.errors.full_messages.should be_empty
+      records.last.errors.full_messages.should_not be_empty
+    end
   end
 end
