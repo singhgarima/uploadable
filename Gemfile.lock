@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    uploadable (0.0.1)
+    uploadable (0.0.2)
       fastercsv
 
 GEM

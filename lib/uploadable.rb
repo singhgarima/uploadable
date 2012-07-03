@@ -29,11 +29,9 @@ module Uploadable
       ActiveRecord::Base.transaction do
         records = @upload_processor.transform_csv contents
         objects = create records
-        failed = true and raise ActiveRecord::Rollback if objects.any? {|obj| !obj.errors.full_messages.blank?}
+        raise ActiveRecord::Rollback if objects.any? {|obj| !obj.errors.full_messages.blank?}
       end
-      return objects.each_with_index.collect do |obj, index| 
-        options[:error_message].gsub('%{csv_line_number}', (index+1).to_s).gsub(/%\{[^\}]*\}/){ |m| obj.instance_eval(m[2..(m.length-2)]) } if obj.errors.present?
-      end.compact if failed and !options[:error_message].blank?
+      return objects
     end
   end
 end

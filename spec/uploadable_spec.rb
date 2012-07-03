@@ -54,15 +54,8 @@ describe "Uploadable" do
     end
 
     it "should rollback all upload records id error exists" do
-      messages = Album.upload_from_csv!("Artist,Title,Extra\n\"John Denver\",\"All Aboard!\",1\n\"Usher\",,2")
-      messages.should be_blank
-      Album.count.should == 0
-    end
-
-    it "should rollback all upload records id error exists and populate message if sent in options" do
-      messages = Album.upload_from_csv!("Artist,Title,Extra\n\"John Denver\",\"All Aboard!\",1\n\"Usher\",,2",
-                                        {:error_message => "Line %{csv_line_number} for %{test_method} has errors: %{errors.full_messages.to_sentence}"})
-      messages.should == ["Line 2 for booga has errors: Title can't be blank"]
+      objects = Album.upload_from_csv!("Artist,Title,Extra\n\"John Denver\",\"All Aboard!\",1\n\"Usher\",,2")
+      objects.collect(&:id).should == [nil, nil]
       Album.count.should == 0
     end
   end
