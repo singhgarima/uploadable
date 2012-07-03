@@ -35,8 +35,35 @@ describe "Uploadable" do
 
     it "should partially upload records id error exists" do
       records = Album.upload_from_csv("Artist,Title,Extra\n\"John Denver\",\"All Aboard!\",1\n\"Usher\",,2")
+      Album.count.should == 1
       records.first.errors.full_messages.should be_empty
       records.last.errors.full_messages.should_not be_empty
+    end
+  end
+
+  describe "upload_from_csv!" do
+    it "should raise NoMethodError for non uploadable models" do
+      lambda { User.upload_from_csv!("") }.should raise_error(NoMethodError)
+    end
+
+    it "should upload to an uploadable model" do
+      lambda { Album.upload_from_csv!("Artist,Title,Extra\n\"John Denver\",\"All Aboard!\",1\n\"Usher\",\"Looking 4 Myself\",2")}.
+        should change(Album, :count).by(2)
+      Album.where(:artist => "John Denver", :title => "All Aboard!").count.should == 1
+      Album.where(:artist => "Usher", :title => "Looking 4 Myself").count.should == 1
+    end
+
+    it "should rollback all upload records id error exists" do
+      messages = Album.upload_from_csv!("Artist,Title,Extra\n\"John Denver\",\"All Aboard!\",1\n\"Usher\",,2")
+      messages.should be_blank
+      Album.count.should == 0
+    end
+
+    it "should rollback all upload records id error exists and populate message if sent in options" do
+      messages = Album.upload_from_csv!("Artist,Title,Extra\n\"John Denver\",\"All Aboard!\",1\n\"Usher\",,2",
+                                        {:error_message => "Line %{csv_line_number} for %{test_method} has errors: %{errors.full_messages.to_sentence}"})
+      messages.should == ["Line 2 for booga has errors: Title can't be blank"]
+      Album.count.should == 0
     end
   end
 end

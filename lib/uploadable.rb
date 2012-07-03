@@ -22,5 +22,18 @@ module Uploadable
       create records
     end
 
+    define_method :upload_from_csv! do |contents, options = {}|
+      raise NoMethodError.new("Method only aviable for uploadable models") if @upload_processor.blank?
+      objects = []
+      failed = false
+      ActiveRecord::Base.transaction do
+        records = @upload_processor.transform_csv contents
+        objects = create records
+        failed = true and raise ActiveRecord::Rollback if objects.any? {|obj| !obj.errors.full_messages.blank?}
+      end
+      return objects.each_with_index.collect do |obj, index| 
+        options[:error_message].gsub('%{csv_line_number}', (index+1).to_s).gsub(/%\{[^\}]*\}/){ |m| obj.instance_eval(m[2..(m.length-2)]) } if obj.errors.present?
+      end.compact if failed and !options[:error_message].blank?
+    end
   end
 end
