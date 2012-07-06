@@ -1,7 +1,7 @@
 require File.expand_path('../lib/uploadable/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors = ["Garima"]
+  gem.authors = ["Garima", "Hephzibah"]
   gem.email = ["igarimasingh@gmail.com"]
   gem.description = %q{Upload your csv to activerecord model}
   gem.summary = %q{This gem gives you flexibility to upload the csv to you model. It also comes packed with some customizations}
@@ -17,4 +17,3 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'fastercsv'
 end
-

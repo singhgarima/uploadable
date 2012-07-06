@@ -5,5 +5,5 @@
 3. Travis CI
 4. header_converters to pick from en.yml rather than symbolize
 5. Add default columns & computed columns from given set of columns
-6. Add documentation to README.md
+6. Add documentation to README.md - Done
 7. To add method upload from file by giving file params coming from controller action
