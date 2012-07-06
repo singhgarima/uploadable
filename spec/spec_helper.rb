@@ -5,7 +5,7 @@ require 'support/sample_app/config/environment'
 
 def setup_sample_app
   Dir.chdir("#{Rails.root}") do
-    system "bundle"
+    system "bundle && rake db:migrate"
   end
 end
 setup_sample_app
