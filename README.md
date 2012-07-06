@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/singhgarima/uploadable.png)](http://travis-ci.org/singhgarima/uploadable)
+
 Uploadable - A simple gem, with custom options to upload a csv to a model
 
 *How to use?*
