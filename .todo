@@ -3,7 +3,7 @@
 1. Create exception class
 2. Improve performance by trying to modify all columns in a go rather than row by row
 3. Travis CI - done
-4. header_converters to pick from en.yml rather than symbolize => done
+4. header_converters to pick from en.yml rather than symbolize => Hephzibah (WIP)
 5. Add default columns & computed columns from given set of columns
 6. Add documentation to README.md - Done
 7. To add method upload from file by giving file params coming from controller action
