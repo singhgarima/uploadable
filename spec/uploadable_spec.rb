@@ -13,6 +13,9 @@ describe "Uploadable" do
       User.instance_variable_get(:@upload_processor).should be_nil
 
       Album.instance_variable_get(:@upload_processor).model.should == Album
+      Album.instance_variable_get(:@upload_processor).mandatory.should == [:title]
+      Album.instance_variable_get(:@upload_processor).optional.should == [:artist]
+      Album.instance_variable_get(:@upload_processor).external.should == []
     end
 
     it "should defind upload_from_csv method for models" do

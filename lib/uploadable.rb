@@ -13,7 +13,8 @@ module Uploadable
 
   module ClassMethods
     def uploadable options = {}
-      @upload_processor = Uploadable::Processor.new :model => self, :mandatory_fields => options[:mandatory_fields], :optional_fields => options[:optional_fields]
+      @upload_processor = Uploadable::Processor.new :model => self, :mandatory_fields => options[:mandatory_fields], :optional_fields => options[:optional_fields],
+        :external_fields => options[:external_fields]
     end
 
     define_method :upload_from_csv do |contents|

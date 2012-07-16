@@ -18,6 +18,28 @@ Uploadable - A simple gem, with custom options to upload a csv to a model
               validates_inclusion_of :category, :in => %w(two three four)
             end
 
+   * You can use the following two methods for conversions and transformations of the fields
+		* transform_<attr_name>_for_upload
+			* This method is only available for fields in the table. Doesn't works with external dependencies
+			* It should always return the transformed value only
+		* convert_<attr_name>_for_upload : this is to load external dependencies in the table e.g. id fields
+			* It should return the hash with new field name as key and new field value as value
+    		
+					class Track < ActiveRecord::Base
+			  	  	  uploadable :mandatory_fields => [:name], :optional_fields => [:top_rated], :external_fields => [:album]
+     			  	  attr_accessible :album_id, :name
+
+         			  belongs_to :album
+ 
+    			      def self.tranform_top_rated_for_upload value
+	    		        value == 'Y' ? true : false
+    	    		  end
+  
+    		    	  def self.convert_album_for_upload value
+	    		        { :album_id => Album.where( :title => value).first.id }
+    		    	  end
+	    		    end
+
 2. Using csv partial upload : *upload_from_csv*
   * You can use function upload_from_csv which will upload records without errors
   
