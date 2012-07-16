@@ -22,8 +22,10 @@ Uploadable - A simple gem, with custom options to upload a csv to a model
 		* transform_<attr_name>_for_upload
 			* This method is only available for fields in the table. Doesn't works with external dependencies
 			* It should always return the transformed value only
-		* convert_<attr_name>_for_upload : this is to load external dependencies in the table e.g. id fields
+		* convert_<attr_name>_for_upload
+			* This is to load external dependencies in the table e.g. id fields
 			* It should return the hash with new field name as key and new field value as value
+			* Note - external_fields being passed as parameter to uploadable
     		
 					class Track < ActiveRecord::Base
 			  	  	  uploadable :mandatory_fields => [:name], :optional_fields => [:top_rated], :external_fields => [:album]
