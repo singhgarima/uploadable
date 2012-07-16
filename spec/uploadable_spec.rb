@@ -21,15 +21,6 @@ describe "Uploadable" do
     end
   end
 
-  describe "human attribute names" do
-    it "should map the human attribute names and upload the records" do
-      lambda { Album.upload_from_csv("Name,Title\n\"John Denver\",\"All Aboard!\"\n\"Usher\",\"Looking 4 Myself\"") }.
-          should change(Album, :count).by(2)
-      Album.where(:artist => "John Denver").count.should == 1
-      Album.where(:artist => "Usher").count.should == 1
-    end
-  end
-
   describe "upload_from_csv" do
     it "should raise NoMethodError for non uploadable models" do
       lambda { User.upload_from_csv("") }.should raise_error(NoMethodError)
