@@ -3,7 +3,3 @@
 
 en:
   hello: "Hello world"
-  activerecord:
-      attributes:
-        album:
-          artist: "Name"
