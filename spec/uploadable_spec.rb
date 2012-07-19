@@ -8,19 +8,25 @@ describe "Uploadable" do
       Track.methods.should include(:uploadable)
     end
 
-    it "should initialize a procesor if model is uploadable" do
+    it "should initialize a processor if model is uploadable" do
       Album.instance_variable_get(:@upload_processor).should_not be_nil
       User.instance_variable_get(:@upload_processor).should be_nil
 
       Album.instance_variable_get(:@upload_processor).model.should == Album
-      Album.instance_variable_get(:@upload_processor).mandatory.should == [:title]
-      Album.instance_variable_get(:@upload_processor).optional.should == [:artist]
-      Album.instance_variable_get(:@upload_processor).external.should == []
     end
 
-    it "should defind upload_from_csv method for models" do
+    it "should define upload_from_csv method for models" do
       Album.should respond_to(:upload_from_csv)
       Track.should respond_to(:upload_from_csv)
+    end
+  end
+
+  describe "human attribute names" do
+    it "should map the human attribute names and upload the records" do
+      lambda { Album.upload_from_csv("Name,Title\n\"John Denver\",\"All Aboard!\"\n\"Usher\",\"Looking 4 Myself\"") }.
+          should change(Album, :count).by(2)
+      Album.where(:artist => "John Denver").count.should == 1
+      Album.where(:artist => "Usher").count.should == 1
     end
   end
 
@@ -30,8 +36,8 @@ describe "Uploadable" do
     end
 
     it "should upload to an uploadable model" do
-      lambda { Album.upload_from_csv("Artist,Title,Extra\n\"John Denver\",\"All Aboard!\",1\n\"Usher\",\"Looking 4 Myself\",2")}.
-        should change(Album, :count).by(2)
+      lambda { Album.upload_from_csv("Artist,Title,Extra\n\"John Denver\",\"All Aboard!\",1\n\"Usher\",\"Looking 4 Myself\",2") }.
+          should change(Album, :count).by(2)
       Album.where(:artist => "John Denver", :title => "All Aboard!").count.should == 1
       Album.where(:artist => "Usher", :title => "Looking 4 Myself").count.should == 1
     end
@@ -50,8 +56,8 @@ describe "Uploadable" do
     end
 
     it "should upload to an uploadable model" do
-      lambda { Album.upload_from_csv!("Artist,Title,Extra\n\"John Denver\",\"All Aboard!\",1\n\"Usher\",\"Looking 4 Myself\",2")}.
-        should change(Album, :count).by(2)
+      lambda { Album.upload_from_csv!("Artist,Title,Extra\n\"John Denver\",\"All Aboard!\",1\n\"Usher\",\"Looking 4 Myself\",2") }.
+          should change(Album, :count).by(2)
       Album.where(:artist => "John Denver", :title => "All Aboard!").count.should == 1
       Album.where(:artist => "Usher", :title => "Looking 4 Myself").count.should == 1
     end
